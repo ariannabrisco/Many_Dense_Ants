@@ -1,0 +1,44 @@
+Algorithm
+
+1. Initialize
+    - Set t:=0
+    - Set an initial value Tau(sub ij)(t) for trail intensity on every path(sub ij)
+    - Place b(sub i)(t) ants on every node i
+    - Set delta Tau(sub ij)(t, t+1):=0 for every i and j
+2. Repeat until tabu list is full       {this step will be repeated n times}
+    - 2.1
+        - For i:=1 to n do                {for every town}
+        - For k:=1 to b(sub i)(t) do      {for every ant on town i at time t}
+        - Choose the town to move to, with probability p(sub ij) given by equation (2),
+          and move the k-th ant to the chosen location
+        - Insert the chosen town in the tabu list of ant k
+        - Set delta Tau(sub ij)(t, t+1):= delta Tau(sub ij)(t, t+1) + delta Tau (super k)(sub ij)(t, t+1) computing
+          delta Tau (super k)(sub ij)(t, t+1) as defined in (3) or in (4)
+    - 2.2
+        - Compute Tau(sub ij)(t+1) and p(sub ij)(t+1) according to equations (1) and (2)
+3. Memorize the shortest path found up to now and empty all tabu lists
+4. If not(End_Test)
+    - then
+        set t:=t+1
+        set delta Tau(sub ij)(t, t+1):=0 for every i and j
+        go to step 2
+    - else
+        print shortest path and Stop
+            {End_test is currently defined just as a test on the number of cycles}
+
+
+Logic
+At time zero an initialization phase takes place during which ants are positioned on different towns and initial values
+for trail intensity are set on paths. Then every ant moves from town i to town j choosing the town to move to with a
+probability that is given as a function (with parameters alpha and beta) of two desirability measures: the first
+called (trail - Tau(sub ij)) gives information about how many ants in the past have chosen that same path(sub ij),
+the second (called visibility - majuscule(sub ij) says that the closer a town the more desirable it is (setting alpha = 0
+we obtain a stochastic greedy algorithm with multiple starting points, with alpha = 0 and beta -> Infinity we obtain the
+standard one).
+
+Each time an ant makes a move, the trail it leaves on path(sub ij) is collected and used to compute the new values for
+path trails. When every ant has moved, trails are used to compute transition probabilities according to formulae (1) and
+(2).
+
+After n moves the tabu list of each ant will be full: the shortest path found is computed and memorized and tabu lists
+are emptied. This process is iterated for an user-defined number of cycles.
