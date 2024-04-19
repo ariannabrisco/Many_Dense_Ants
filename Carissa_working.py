@@ -2,8 +2,8 @@
 
 import random
 
-antNames = ["Antony", "Marie Antoinette", "Tiny Dancer", "Leggy Larry", "Sir March-a-Lot", "Mini Muncher", "Houdini", "Napoleon", 
-            "Six-Stepper","Micro McTiny"]
+antNames = ["Antony", "Marie Antoinette", "Tiny Dancer", "Leggy Larry", "Sir March-a-Lot", "Mini Muncher", "Houdini",
+            "Napoleon", "Six-Stepper", "Micro McTiny", "Antonio", "Bryant"]
 
 class Ant:
     def __init__(self, id):
