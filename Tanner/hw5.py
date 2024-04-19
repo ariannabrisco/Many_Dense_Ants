@@ -82,4 +82,4 @@ nx.draw(G, with_labels = True)
 plt.savefig("filename.png")
 
 print("DFS traversal starting from node 1:")
-test = dfs(G, 1, 8)
+test = dfs(G, 1, numberOfVertices + 1)
