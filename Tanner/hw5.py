@@ -75,7 +75,7 @@ edges = [
    
 G = nx.Graph()
 
-G.add_nodes_from(list(map(lambda a : a + 1, range(numberOfVertices))))
+G.add_nodes_from(range(1, numberOfVertices + 1))
 G.add_edges_from(edges)
 
 nx.draw(G, with_labels = True)
