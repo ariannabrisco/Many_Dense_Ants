@@ -22,3 +22,9 @@ class Path:
 
     def addShortestPath(self, path):
         self.shortestPath.append(path)
+
+    def addIntensity(self, intensity):
+        self.intensity = intensity
+
+    def addDistance(self, distance):
+        self.distance = distance
