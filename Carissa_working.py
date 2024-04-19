@@ -2,8 +2,8 @@
 
 import random
 
-antNames = ["Antony", "Marie Antoinette", "Tiny Dancer", "Leggy Larry", "Sir March-a-Lot", "Mini Muncher", "Houdini", "Napoleon", 
-            "Six-Stepper","Micro McTiny", "Itsy Bitsy", "Queen of the Hill", "Sherlock Homeslice", "Buzz McKrill", "Colonel Crumb",
+antNames = ["Antony", "Marie Antoinette", "Tiny Dancer", "Leggy Larry", "Sir March-a-Lot", "Mini Muncher", "Houdini",
+            "Napoleon", "Six-Stepper", "Micro McTiny", "Antonio", "Bryant", "Itsy Bitsy", "Queen of the Hill", "Sherlock Homeslice", "Buzz McKrill", "Colonel Crumb",
             "Count Crawly", "Pebble Crusher", "Lil' Pincers", "Mighty Mite", "Picasso the Pint-sized", "Scurry McHurry", "Sir Scuttle",
             "Daisy", "Sparkles", "Bitty", "Cupcake", "Button", "Cinnamon", "Pebbles", "Glimmer", "Sugar", "Tink", "Whiskers", "Velvet",
             "Skittles", "Twinkle", "Pippin", "Fluffy", "Dottie", "Sprinkles", "Pixel", "Sunny", "Asher", "Beckett", "Caden", "Dexter", 
