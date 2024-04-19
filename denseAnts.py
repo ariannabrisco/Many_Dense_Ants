@@ -1,6 +1,7 @@
 # these ant are the dense ones
+
 import random
-antNames = ["Tiny Dancer", "Leggy Larry", "Sir March-a-Lot", "Mini Muncher", "Houdini", "Napoleon", 
+antNames = ["Antony", "Marie Antoinette", "Tiny Dancer", "Leggy Larry", "Sir March-a-Lot", "Mini Muncher", "Houdini", "Napoleon", 
             "Six-Stepper","Micro McTiny"]
 
 class Ant:
