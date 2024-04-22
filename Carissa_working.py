@@ -17,6 +17,17 @@ class Ant:
         self.name = random.choice(antNames)
         self.tabuList = []
 
+    def addTown(self, town):
+        if town not in self.tabuList:
+            self.tabuList.append(town)
+            print(f"{town} added to Ant {self.id} ({self.name}).")
+
+    def getTabuList(self):
+        return self.tabuList
+    
+    def emptyTabuList(self):
+        self.tabuList = []
+
     def __repr__(self):
         return (f"___________\n\n* Ant {self.id} *\nName: {self.name}\nTabu List: {self.tabuList}\n___________\n")
 
