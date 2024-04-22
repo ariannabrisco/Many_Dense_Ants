@@ -9,7 +9,7 @@ antNames = ["Antony", "Marie Antoinette", "Tiny Dancer", "Leggy Larry", "Sir Mar
             "Skittles", "Twinkle", "Pippin", "Fluffy", "Dottie", "Sprinkles", "Pixel", "Sunny", "Asher", "Beckett", "Caden", "Dexter", 
             "Emory", "Finn", "Graham", "Holden", "Idris", "Jasper", "Kieran", "Leo", "Milo", "Nolan", "Otto", "Phoenix", "Quinn", "Ronan", 
             "Silas", "Tobin", "Amelia", "Bella", "Celeste", "Daphne", "Eliza", "Fiona", "Giselle", "Hazel", "Isla", "Juniper", "Kira", 
-            "Luna", "Marigold", "Nova", "Opal", "Penelope", "Quinley", "Rosalyn", "Sadie", "Tessa"]
+            "Luna", "Marigold", "Nova", "Opal", "Penelope", "Quinley", "Rosalyn", "Sadie", "Tessa", "Arianta", "Tanter", "Carissant"]
 
 class Ant:
     def __init__(self, id):
