@@ -124,7 +124,7 @@ class Graph:
                 edge_to_take.prob = self.calulate_prob(edge_to_take, alpha, beta) #change the prob of that edge after the ant has left trail (pher amt)
 
                 # Checking if the current tour is shorter than the globally based shortest path
-                tour_length = self.calculate_tour_length(ant.visited_vertex)
+                tour_length = self.calculate_tour_length(ant.visited_vertex) # visited vertex is a list vertices
                 if tour_length < shortest_path_length:
                     shortest_path = ant.visited_vertex[:]
                     shortest_path_length = tour_length
