@@ -55,7 +55,7 @@ class Graph:
         if edge in self.edges:
             edge.pher_amt = phermone_amt
 
-    def calculate_tour_length(self, tour):
+    def calculate_tour_length(self, tour): #tour is list of edges
         length = 0
         for i in range(len(tour) - 1):
             length += self.get_edge_weight(tour[i], tour[i + 1])
@@ -116,8 +116,8 @@ class Graph:
                         edge_to_take = edge
                         vertex_to_go = edge.vertex2
 
-                ants.current_vertex = vertex_to_go
-                ants.visted_vertex.append(vertex_to_go)
+                ant.current_vertex = vertex_to_go
+                ant.visted_vertex.append(vertex_to_go)
 
 
                 edge_to_take.pher_amt = 0.5*edge_to_take.pher_amt + Q/edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
