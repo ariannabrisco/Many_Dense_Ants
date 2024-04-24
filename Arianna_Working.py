@@ -11,13 +11,12 @@ import math
 
 
 class Path:
-    def __init__(self, intensity, distance):
+    def __init__(self, distance):
         self.path = []
         self.shortestPath = []
-        self.intensity = intensity
         self.distance = distance
-        self.v1 = Node()
-        self.v2 = Node()
+        self.i = Node()
+        self.j = Node()
 
     def addPath(self, path):
         self.path.append(path)
@@ -26,12 +25,16 @@ class Path:
         self.shortestPath.append(path)
         return (f"The shortest path from start to finish is: {self.shortestPath}")  # can decide how output looks
 
-    def addIntensity(self, intensity):
-        self.intensity = 0
-
     def addDistance(self, distance):
         self.distance = math.inf
 
-    def findDistance(self, v1, v2):
-        distanceBetween = v1.distance - v2.distance
+    def findDistance(self, i, j):
+        distanceBetween = i.distance - j.distance
         return distanceBetween
+
+class Node:
+    def __init__(self, intensity):
+        self.intensity = intensity
+
+    def addIntensity(self, intensity):
+        self.intensity = 1

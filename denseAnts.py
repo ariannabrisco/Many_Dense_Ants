@@ -1,6 +1,8 @@
 # these ant are the dense ones
 
 import random
+import networkx as nx
+import matplotlib.pyplot as plt
 
 antNames = ["Antony", "Marie Antoinette", "Tiny Dancer", "Leggy Larry", "Sir March-a-Lot", "Mini Muncher", "Houdini",
             "Napoleon", "Six-Stepper", "Micro McTiny", "Antonio", "Bryant", "Itsy Bitsy", "Queen of the Hill", "Sherlock Homeslice", "Buzz McKrill", "Colonel Crumb",
@@ -19,3 +21,14 @@ class Ant:
 
     def __repr__(self):
         return (f"___________\n\n* Ant {self.id} *\nName: {self.name}\nTabu List: {self.tabuList}\n___________\n")
+
+
+   
+G = nx.Graph()
+
+edges = [["a", "b", 1], ["a", "c", 4], ["c", "d", 4], ["b", "d", 1]]
+
+G.add_weighted_edges_from(edges)
+
+nx.draw(G, with_labels = True)
+plt.savefig("filename.png")
