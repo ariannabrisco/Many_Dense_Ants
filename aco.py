@@ -55,6 +55,18 @@ class Graph:
         if edge in self.edges:
             edge.pher_amt = phermone_amt
 
+    def calculate_tour_length(self, tour):
+        length = 0
+        for i in range(len(tour) - 1):
+            length += self.get_edge_weight(tour[i], tour[i + 1])
+        return length  
+
+    def get_edge_weight(self, vertex1, vertex2):
+        for edge in self.edges:
+            if (edge.vertex1 == vertex1 and edge.vertex2 == vertex2) or (edge.vertex1 == vertex2 and edge.vertex2 == vertex1):
+                return edge.weight
+        return float('inf')  
+
     def calulate_prob(self, edge_to_take, alpha, beta):
         edge_visibility = 1/edge_to_take.weight
         numerator = (edge_to_take.pher_amt**alpha) * (edge_visibility**beta)
@@ -69,14 +81,15 @@ class Graph:
     
 
     def optmization(self, Q, alpha, beta , ants): #ants is a list of ant instance 
-        shortest_path = []
+        shortest_path = None
+        shortest_path_length = float('inf')
         shuffled_towns = copy.deepcopy(self.vertices)
         random.shuffle(shuffled_towns)
 
         for ant in ants:
             if self.vertices:
                 curr_vertex = shuffled_towns.pop()
-                ant.visted_vertex.append(curr_vertex) 
+                ant.visited_vertex.append(curr_vertex) 
                 ant.curr_vertex = curr_vertex 
 
         for v in range(len(self.vertices)):
@@ -94,8 +107,8 @@ class Graph:
                         potential_edges.append(e)
                     else: #check this
                         e = Edge(curr_vertex, neighbor)
-                        e.pher_amt = edge_to_take.pher_amt + Q/edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
-                        edge_to_take.prob = self.calulate_prob(e, alpha, beta) #change the prob of that edge after the ant has left trail (pher amt)
+                        e.pher_amt = e.pher_amt + Q/e.weight  #collect trail(pher amt) left by ant on that particular edge
+                        e.prob = self.calulate_prob(e, alpha, beta) #change the prob of that edge after the ant has left trail (pher amt)
            
                 for edge in potential_edges:
                     if edge.prob > greatest_prob:
@@ -103,19 +116,32 @@ class Graph:
                         edge_to_take = edge
                         vertex_to_go = edge.vertex2
 
-                ants.current_town = vertex_to_go
-                ants.visted_town.append(vertex_to_go)
+                ants.current_vertex = vertex_to_go
+                ants.visted_vertex.append(vertex_to_go)
 
 
                 edge_to_take.pher_amt = 0.5*edge_to_take.pher_amt + Q/edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
                 edge_to_take.prob = self.calulate_prob(edge_to_take, alpha, beta) #change the prob of that edge after the ant has left trail (pher amt)
+
+                # Checking if the current tour is shorter than the globally based shortest path
+                tour_length = self.calculate_tour_length(ant.visited_vertex)
+                if tour_length < shortest_path_length:
+                    shortest_path = ant.visited_vertex[:]
+                    shortest_path_length = tour_length
+
+        return shortest_path, shortest_path_length
+
+
+
+
+
+            
                 
-                    
 
 
 
 
-                    
+                
 
 
 
@@ -123,5 +149,5 @@ class Graph:
 
 
 
-    
-    
+
+
