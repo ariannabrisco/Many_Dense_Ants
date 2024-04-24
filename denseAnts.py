@@ -19,9 +19,3 @@ class Ant:
 
     def __repr__(self):
         return (f"___________\n\n* Ant {self.id} *\nName: {self.name}\nTabu List: {self.tabuList}\n___________\n")
-
-ants = []
-for ant in range(10):
-    ants += [Ant(ant)]
-
-for a in ants: print(a)
