@@ -12,7 +12,7 @@ antNames = ["ANTony", "Marie ANToinette", "Tiny Dancer", "Leggy Larry", "Sir Mar
             "Giselle", "Hazel", "Isla", "Juniper", "Kira", "Luna", "Marigold", "Nova", "Opal", "Penelope", "Quinley",
             "Rosalyn", "Sadie", "Tessa", "AriANTa", "TANTer", "CarissANT", "KrishnANT", "ANTon", "ANTi Social", "RyANT"
             "GrANT", "Lady ANTebellum", "ANTchovie", "PeasANT", "Albert ANTstein", "ElephANT", "Anti-ANT Eater",
-            "ANTelope", "InformANT", "InfANT", "MaliciousANT", "TyrANT"]
+            "ANTelope", "InformANT", "InfANT", "MaliciousANT", "TyrANT", "ANTagonizer", "pANT", "Thief ANT"]
 
 
 class Edge:
