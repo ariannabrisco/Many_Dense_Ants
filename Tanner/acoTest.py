@@ -24,7 +24,7 @@ class Vertex:
         self.vertex = vertex
         self.neighbour = []
         
-    def getVertex(self):
+    def get_vertex(self):
         return self.vertex
         
     def __repr__(self):
@@ -48,13 +48,13 @@ class Graph:
         v2 = None
         
         for vertex in self.vertices:
-            if vertex.getVertex() == vertex1:
+            if vertex.get_vertex() == vertex1:
                 v1 = vertex
-            elif vertex.getVertex() == vertex2:
+            elif vertex.get_vertex() == vertex2:
                 v2 = vertex
             
         
-        if vertex1  and vertex2:
+        if vertex1 and vertex2:
             edge1 = Edge(v1, v2)
             self.edges.append(edge1)
             v1.neighbour.append(v2)
