@@ -37,7 +37,7 @@ class Graph:
         self.edges = []
         
     def __repr__(self):
-        return f"Vertices: {self.vertices}\nedges: "
+        return f"Vertices: {self.vertices}\nedges: {self.edges}"
   
     def add_vertex(self, vertex):
         v = Vertex(vertex)
@@ -52,7 +52,6 @@ class Graph:
                 v1 = vertex
             elif vertex.get_vertex() == vertex2:
                 v2 = vertex
-            
         
         if vertex1 and vertex2:
             edge1 = Edge(v1, v2)
@@ -156,7 +155,6 @@ for i in testEdges:
     testGraph.add_edge(i[0], i[1])
 
 
-print(testGraph.get_edges())
 print(testGraph)
 
 testEdge = Edge("a", "b")
