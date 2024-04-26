@@ -154,7 +154,4 @@ for i in testVertices:
 for i in testEdges:
     testGraph.add_edge(i[0], i[1])
 
-
 print(testGraph)
-
-testEdge = Edge("a", "b")
