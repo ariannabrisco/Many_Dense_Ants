@@ -24,6 +24,9 @@ class Vertex:
         self.vertex = vertex
         self.neighbour = []
         
+    def getVertex(self):
+        return self.vertex
+        
     def __repr__(self):
         return f"{self.vertex}"
 
@@ -41,21 +44,27 @@ class Graph:
         self.vertices.append(v)
 
     def add_edge(self, vertex1, vertex2):
-        if Vertex(vertex1) in self.vertices and Vertex(vertex2) in self.vertices:
-            edge1 = Edge(vertex1, vertex2)
-            edge2 = Edge(vertex1, vertex2)
+        v1 = None
+        v2 = None
+        
+        for vertex in self.vertices:
+            if vertex.getVertex() == vertex1:
+                v1 = vertex
+            elif vertex.getVertex() == vertex2:
+                v2 = vertex
+            
+        
+        if vertex1  and vertex2:
+            edge1 = Edge(v1, v2)
             self.edges.append(edge1)
-            self.edges.append(edge2)
-            vertex1.neighbour.append(vertex2)
-            vertex2.neighbour.append(vertex1)
+            v1.neighbour.append(v2)
+            v2.neighbour.append(v1)
             
     def get_edges(self):
         edges = []
         
         for edge in self.edges:
             edges.append(edge)
-            print(repr(edge))
-            pass
         
         return edges
         
@@ -151,6 +160,3 @@ print(testGraph.get_edges())
 print(testGraph)
 
 testEdge = Edge("a", "b")
-
-print(testEdge)
-    
