@@ -48,9 +48,11 @@ class AntGraph(nx.Graph):
         # we may want this to add a random unnocupied ant from the colony later, we may not, for now this function does nothing
         #self.edges[node][Ant?]
 
-    def add_edge(self, u_of_edge, v_of_edge,  **attr):
+    def add_edge(self, u_of_edge, v_of_edge, weight=1,  **attr):
         super().add_edge(u_of_edge, v_of_edge, **attr)
         # adds a base pheremone intensity to the path, this will later be incremented every time an ant completes his trip across it
+        self.edges[u_of_edge, v_of_edge]['weight'] = weight
+        self.edges[u_of_edge, v_of_edge]['prob'] = 0
         self.edges[u_of_edge, v_of_edge]['pheremoneIntensity'] = '1'
         
     # code from aco, it has yet to be converted, some or most of it may have to be completely replaced, I am not yet sure, 
@@ -58,16 +60,25 @@ class AntGraph(nx.Graph):
     # need to be reworked and/or can be done easier than it is currently being done, it's all currently pretty messy
         
     def calculate_prob(self, edge_to_take, alpha, beta):
-        edge_visibility = 1 / edge_to_take.weight
-        numerator = (edge_to_take.pher_amt ** alpha) * (edge_visibility ** beta)
+        # edge_visibility = 1 / edge_to_take.weight
+        edge_visibility = 1 / self.edges[edge_to_take]['pheremoneIntensity']
+        # numerator = (edge_to_take.pher_amt ** alpha) * (edge_visibility ** beta)
+        numerator = (self.edges[edge_to_take]['pheremoneIntensity'] ** alpha) * (edge_visibility ** beta)
 
         summation_denominator = 0
         for edge in self.edges:
-            e_visibility = 1 / edge.weight
-            summation_denominator += (edge.pher_amt ** alpha) * (e_visibility ** beta)
+            e_visibility = 1 / edge['weight']
+            # summation_denominator += (edge.pher_amt ** alpha) * (e_visibility ** beta)
+            summation_denominator += (edge['pheremoneIntensity'] ** alpha) * (e_visibility ** beta)
 
         transition_prob = numerator / summation_denominator
         return transition_prob
+
+    def calculate_tour_length(self, tour):  #tour is list of edges
+        length = 0
+        for town in tour:
+            length += self.edges[town]['weight']
+        return length
 
     def optimization(self, Q, alpha, beta, ants):  #ants is a list of ant instance
         shortest_path = None
@@ -91,33 +102,38 @@ class AntGraph(nx.Graph):
                 vertex_to_go = None
                 potential_edges = []
 
-                for neighbor in curr_vertex.neighbour:  #getting the neighbour town: thi
-                    if neighbor not in ant.visited_vertex:  #if that town has not been visited
-                        e = Edge(curr_vertex, neighbor)
+                for neighbor in curr_vertex.neighbours():  #getting the neighbour town: thi
+                    e = [curr_vertex, neighbor]
+                    
+                    if neighbor not in ant.getTabuList():  #if that town has not been visited
                         potential_edges.append(e)
                     else:  #check this
-                        e = Edge(curr_vertex, neighbor)
-                        e.pher_amt = e.pher_amt + Q / e.weight  #collect trail(pher amt) left by ant on that particular edge
-                        e.prob = self.calculate_prob(e, alpha,
-                                                     beta)  #change the prob of that edge after the ant has left trail (pher amt)
+                        # e.pher_amt = e.pher_amt + Q / e.weight  #collect trail(pher amt) left by ant on that particular edge
+                        self.edges[e]['pheremoneIntensity'] = self.edges[e]['pheremoneIntensity'] + Q * self.edges[e]['weight']  #collect trail(pher amt) left by ant on that particular edge
+                        # e.prob = self.calculate_prob(e, alpha, beta)  #change the prob of that edge after the ant has left trail (pher amt)
+                        # e.prob = self.calculate_prob(e, alpha, beta)  #change the prob of that edge after the ant has left trail (pher amt)
+                        self.edges[e]['prob'] = self.calculate_prob(e, alpha, beta)
 
                 for edge in potential_edges:
-                    if edge.prob > greatest_prob:
-                        greatest_prob = edge.prob
+                    # if edge.prob > greatest_prob:
+                    prob = self.edges[edge_to_take]['prob']
+                    if prob > greatest_prob:
+                        greatest_prob = prob
                         edge_to_take = edge
-                        vertex_to_go = edge.vertex2
+                        # vertex_to_go = edge.vertex2
+                        vertex_to_go = self.edges[edge]
 
-                ant.current_vertex = vertex_to_go
-                ant.visted_vertex.append(vertex_to_go)
+                ant.addTown(vertex_to_go)
 
-                edge_to_take.pher_amt = 0.5 * edge_to_take.pher_amt + Q / edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
-                edge_to_take.prob = self.calculate_prob(edge_to_take, alpha,
-                                                        beta)  #change the prob of that edge after the ant has left trail (pher amt)
+                # edge_to_take.pher_amt = 0.5 * edge_to_take.pher_amt + Q / edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
+                self.edges[edge_to_take]['pheremoneIntensity'] = 0.5 * self.edges[edge_to_take]['pheremoneIntensity'] + Q / self.edges[edge_to_take]['weight']  #collect trail(pher amt) left by ant on that particular edge
+                # edge_to_take.prob = self.calculate_prob(edge_to_take, alpha, beta)  #change the prob of that edge after the ant has left trail (pher amt)
+                self.edges[edge_to_take]['prob'] = self.calculate_prob(edge_to_take, alpha, beta)  #change the prob of that edge after the ant has left trail (pher amt)
 
                 # Checking if the current tour is shorter than the globally based shortest path
-                tour_length = self.calculate_tour_length(ant.visited_vertex)  # visited vertex is a list vertices
+                tour_length = self.calculate_tour_length(ant.getTabuList())  # visited vertex is a list vertices
                 if tour_length < shortest_path_length:
-                    shortest_path = ant.visited_vertex[:]
+                    shortest_path = ant.getTabuList()[:]
                     shortest_path_length = tour_length
         
 # G = nx.Graph()
@@ -137,6 +153,9 @@ G.add_weighted_edges_from(edges)"""
 G.add_edge(*['a', 'b'])
 
 print(G.edges['a', 'b'])
+print(G.edges['a', 'b']['pheremoneIntensity'])
+    
+print(type(G.edges['a', 'b']))
     
 nx.draw(G, with_labels = True)
 plt.savefig("filename.png")
