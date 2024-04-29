@@ -43,9 +43,14 @@ class AntGraph(nx.Graph):
         # colony is a list of Ant objects
         self.colony = colony
 
+    def add_node(self, node,  **attr):
+        super().add_node(node, **attr)
+        # we may want this to add a random unnocupied ant from the colony later, we may not, for now this function does nothing
+        #self.edges[node][Ant?]
+
     def add_edge(self, u_of_edge, v_of_edge,  **attr):
         super().add_edge(u_of_edge, v_of_edge, **attr)
-        # adds a 
+        # adds a base pheremone intensity to the path, this will later be incremented every time an ant completes his trip across it
         self.edges[u_of_edge, v_of_edge]['pheremoneIntensity'] = '1'
         
     # code from aco, it has yet to be converted, some or most of it may have to be completely replaced, I am not yet sure, 
@@ -118,15 +123,12 @@ class AntGraph(nx.Graph):
 # G = nx.Graph()
 G = AntGraph()
 
-"""G.add_node('a', pheremoneIntensity=1)
-G.add_node('b', pheremoneIntensity=1)
-G.add_node('c', pheremoneIntensity=1)
-G.add_node('d', pheremoneIntensity=1)"""
-
 nodes = ['a', 'b', 'c', 'd']
 
 for node in nodes:
     G.add_node(node)
+    
+print(G.nodes)
 
 """edges = [['a', 'b', 1], ['a', 'c', 4], ['c', 'd', 4], ['b', 'd', 1]]
 
