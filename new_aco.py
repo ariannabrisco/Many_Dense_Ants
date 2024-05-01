@@ -99,13 +99,13 @@ class Graph:
                 potential_edges = []
 
 
-                print("--------------------------")
-                print("ant: ",ant.ant, "current vertex -> ", curr_vertex.name)
+                print("--------------------------") #testing 
+                print("ant: ",ant.ant, "current vertex -> ", curr_vertex.name) #test
                 
         #         print(" before: ant visited vertex length -> ", len(ant.visited_vertex))
                 for neighbour in curr_vertex.neighbour: #getting the neighbour town: thi    
                     if neighbour not in ant.visited_vertex: #if that town has not been visited
-                        print(ant.ant, "current vertex:", curr_vertex.name,  " neighbours ", neighbour.name)
+                        print(ant.ant, "current vertex:", curr_vertex.name,  " neighbours ", neighbour.name) #test
                         pot_edge = self.get_edge(ant.curr_vertex, neighbour)
                         # print(pot_edge)
                         potential_edges.append(pot_edge)
