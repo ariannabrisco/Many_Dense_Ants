@@ -53,7 +53,7 @@ class AntGraph(nx.Graph):
         # adds a base pheremone intensity to the path, this will later be incremented every time an ant completes his trip across it
         self.edges[u_of_edge, v_of_edge]['weight'] = weight
         self.edges[u_of_edge, v_of_edge]['prob'] = 0
-        self.edges[u_of_edge, v_of_edge]['pheremoneIntensity'] = '1'
+        self.edges[u_of_edge, v_of_edge]['pheromoneIntensity'] = '1'
         
     # code from aco, it has yet to be converted, some or most of it may have to be completely replaced, I am not yet sure, 
     # between colony and some of the additional things added by this just being a spicy networkx graph, a lot of it will
@@ -61,15 +61,15 @@ class AntGraph(nx.Graph):
         
     def calculate_prob(self, edge_to_take, alpha, beta):
         # edge_visibility = 1 / edge_to_take.weight
-        edge_visibility = 1 / self.edges[edge_to_take]['pheremoneIntensity']
+        edge_visibility = 1 / self.edges[edge_to_take]['pheromoneIntensity']
         # numerator = (edge_to_take.pher_amt ** alpha) * (edge_visibility ** beta)
-        numerator = (self.edges[edge_to_take]['pheremoneIntensity'] ** alpha) * (edge_visibility ** beta)
+        numerator = (self.edges[edge_to_take]['pheromoneIntensity'] ** alpha) * (edge_visibility ** beta)
 
         summation_denominator = 0
         for edge in self.edges:
             e_visibility = 1 / edge['weight']
             # summation_denominator += (edge.pher_amt ** alpha) * (e_visibility ** beta)
-            summation_denominator += (edge['pheremoneIntensity'] ** alpha) * (e_visibility ** beta)
+            summation_denominator += (edge['pheromoneIntensity'] ** alpha) * (e_visibility ** beta)
 
         transition_prob = numerator / summation_denominator
         return transition_prob
@@ -109,7 +109,7 @@ class AntGraph(nx.Graph):
                         potential_edges.append(e)
                     else:  #check this
                         # e.pher_amt = e.pher_amt + Q / e.weight  #collect trail(pher amt) left by ant on that particular edge
-                        self.edges[e]['pheremoneIntensity'] = self.edges[e]['pheremoneIntensity'] + Q * self.edges[e]['weight']  #collect trail(pher amt) left by ant on that particular edge
+                        self.edges[e]['pheromoneIntensity'] = self.edges[e]['pheromoneIntensity'] + Q * self.edges[e]['weight']  #collect trail(pher amt) left by ant on that particular edge
                         # e.prob = self.calculate_prob(e, alpha, beta)  #change the prob of that edge after the ant has left trail (pher amt)
                         # e.prob = self.calculate_prob(e, alpha, beta)  #change the prob of that edge after the ant has left trail (pher amt)
                         self.edges[e]['prob'] = self.calculate_prob(e, alpha, beta)
@@ -126,7 +126,7 @@ class AntGraph(nx.Graph):
                 ant.addTown(vertex_to_go)
 
                 # edge_to_take.pher_amt = 0.5 * edge_to_take.pher_amt + Q / edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
-                self.edges[edge_to_take]['pheremoneIntensity'] = 0.5 * self.edges[edge_to_take]['pheremoneIntensity'] + Q / self.edges[edge_to_take]['weight']  #collect trail(pher amt) left by ant on that particular edge
+                self.edges[edge_to_take]['pheromoneIntensity'] = 0.5 * self.edges[edge_to_take]['pheromoneIntensity'] + Q / self.edges[edge_to_take]['weight']  #collect trail(pher amt) left by ant on that particular edge
                 # edge_to_take.prob = self.calculate_prob(edge_to_take, alpha, beta)  #change the prob of that edge after the ant has left trail (pher amt)
                 self.edges[edge_to_take]['prob'] = self.calculate_prob(edge_to_take, alpha, beta)  #change the prob of that edge after the ant has left trail (pher amt)
 
@@ -153,7 +153,7 @@ G.add_weighted_edges_from(edges)"""
 G.add_edge(*['a', 'b'])
 
 print(G.edges['a', 'b'])
-print(G.edges['a', 'b']['pheremoneIntensity'])
+print(G.edges['a', 'b']['pheromoneIntensity'])
     
 print(type(G.edges['a', 'b']))
     
