@@ -120,10 +120,10 @@ class AntGraph(nx.Graph):
                         self.edges[e]['pheromoneIntensity'] = (self.edges[e]['pheromoneIntensity'] +
                                                                Q * self.edges[e]['weight'])
                         # collect trail(pher amt) left by ant on that particular edge
-                        # e.prob = self.calculate_prob(e, alpha, beta)  #change the prob of that edge after the ant
-                    #   # has left trail (pher amt)
-                        # e.prob = self.calculate_prob(e, alpha, beta)  #change the prob of that edge after the ant
-                    #   # has left trail (pher amt)
+                        # e.prob = self.calculate_prob(e, alpha, beta)  # change the prob of that edge after the ant
+                        # has left trail (pher amt)
+                        # e.prob = self.calculate_prob(e, alpha, beta)  # change the prob of that edge after the ant
+                        # has left trail (pher amt)
                         self.edges[e]['prob'] = self.calculate_prob(e, alpha, beta)
 
                 for edge in potential_edges:
