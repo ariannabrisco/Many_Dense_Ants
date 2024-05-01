@@ -4,13 +4,15 @@ import random
 import copy
 
 antNames = ["Antony", "Marie Antoinette", "Tiny Dancer", "Leggy Larry", "Sir March-a-Lot", "Mini Muncher", "Houdini",
-            "Napoleon", "Six-Stepper", "Micro McTiny", "Antonio", "Bryant", "Itsy Bitsy", "Queen of the Hill", "Sherlock Homeslice", "Buzz McKrill", "Colonel Crumb",
-            "Count Crawly", "Pebble Crusher", "Lil' Pincers", "Mighty Mite", "Picasso the Pint-sized", "Scurry McHurry", "Sir Scuttle",
-            "Daisy", "Sparkles", "Bitty", "Cupcake", "Button", "Cinnamon", "Pebbles", "Glimmer", "Sugar", "Tink", "Whiskers", "Velvet",
-            "Skittles", "Twinkle", "Pippin", "Fluffy", "Dottie", "Sprinkles", "Pixel", "Sunny", "Asher", "Beckett", "Caden", "Dexter", 
-            "Emory", "Finn", "Graham", "Holden", "Idris", "Jasper", "Kieran", "Leo", "Milo", "Nolan", "Otto", "Phoenix", "Quinn", "Ronan", 
-            "Silas", "Tobin", "Amelia", "Bella", "Celeste", "Daphne", "Eliza", "Fiona", "Giselle", "Hazel", "Isla", "Juniper", "Kira", 
-            "Luna", "Marigold", "Nova", "Opal", "Penelope", "Quinley", "Rosalyn", "Sadie", "Tessa", "Arianta", "Tanter", "Carissant"]
+            "Napoleon", "Six-Stepper", "Micro McTiny", "Antonio", "Bryant", "Itsy Bitsy", "Queen of the Hill",
+            "Sherlock Homeslice", "Buzz McKrill", "Colonel Crumb", "Count Crawly", "Pebble Crusher", "Lil' Pincers",
+            "Mighty Mite", "Picasso the Pint-sized", "Scurry McHurry", "Sir Scuttle", "Daisy", "Sparkles", "Bitty",
+            "Cupcake", "Button", "Cinnamon", "Pebbles", "Glimmer", "Sugar", "Tink", "Whiskers", "Velvet",
+            "Skittles", "Twinkle", "Pippin", "Fluffy", "Dottie", "Sprinkles", "Pixel", "Sunny", "Asher", "Beckett",
+            "Caden", "Dexter", "Emory", "Finn", "Graham", "Holden", "Idris", "Jasper", "Kieran", "Leo", "Milo", "Nolan",
+            "Otto", "Phoenix", "Quinn", "Ronan", "Silas", "Tobin", "Amelia", "Bella", "Celeste", "Daphne", "Eliza",
+            "Fiona", "Giselle", "Hazel", "Isla", "Juniper", "Kira", "Luna", "Marigold", "Nova", "Opal", "Penelope",
+            "Quinley", "Rosalyn", "Sadie", "Tessa", "Arianta", "Tanter", "Carissant"]
 
 class Ant:
     def __init__(self, id):
@@ -50,7 +52,7 @@ class AntGraph(nx.Graph):
 
     def add_edge(self, u_of_edge, v_of_edge, weight=1,  **attr):
         super().add_edge(u_of_edge, v_of_edge, **attr)
-        # adds a base pheremone intensity to the path, this will later be incremented every time an ant completes his trip across it
+        # adds a base pheromone intensity to the path, this will later be incremented every time an ant completes his trip across it
         self.edges[u_of_edge, v_of_edge]['weight'] = weight
         self.edges[u_of_edge, v_of_edge]['prob'] = 0
         self.edges[u_of_edge, v_of_edge]['pheromoneIntensity'] = '1'
@@ -95,8 +97,8 @@ class AntGraph(nx.Graph):
         # the rest
         for v in range(len(self.nodes)):
             for ant in ants:
-                curr_vertex = ant.getTown()  #get the current vertex so that we can get its neighbors and respective probalities of going to a neighbor
-
+                curr_vertex = ant.getTown()  #get the current vertex so that we can get its neighbors and respective
+                                             # probalities of going to a neighbor
                 greatest_prob = 0
                 edge_to_take = None
                 vertex_to_go = None
@@ -157,6 +159,6 @@ print(G.edges['a', 'b']['pheromoneIntensity'])
     
 print(type(G.edges['a', 'b']))
     
-nx.draw(G, with_labels = True)
+nx.draw(G, with_labels=True)
 plt.savefig("filename.png")
 
