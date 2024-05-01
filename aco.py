@@ -71,6 +71,23 @@ class Graph:
         if edge in self.edges:
             edge.pher_amt = phermone_amt
 
+<<<<<<< HEAD
+    def calculate_tour_length(self, tour):
+        length = 0
+        for i in range(len(tour) - 1):
+            length += self.get_edge_weight(tour[i], tour[i + 1])
+        return length  
+
+    def get_edge_weight(self, vertex1, vertex2):
+        for edge in self.edges:
+            if (edge.vertex1 == vertex1 and edge.vertex2 == vertex2) or (edge.vertex1 == vertex2 and edge.vertex2 == vertex1):
+                return edge.weight
+        return float('inf')  
+
+    def calulate_prob(self, edge_to_take, alpha, beta):
+        edge_visibility = 1/edge_to_take.weight
+        numerator = (edge_to_take.pher_amt**alpha) * (edge_visibility**beta)
+=======
     def calculate_tour_length(self, tour):  #tour is list of edges
         length = 0
         for i in range(len(tour) - 1):
@@ -87,16 +104,21 @@ class Graph:
     def calculate_prob(self, edge_to_take, alpha, beta):
         edge_visibility = 1 / edge_to_take.weight
         numerator = (edge_to_take.pher_amt ** alpha) * (edge_visibility ** beta)
+>>>>>>> 7dd40ed37df952a83d05a1654c1c29fa01614fc7
 
         summation_denominator = 0
         for edge in self.edges:
             e_visibility = 1 / edge.weight
             summation_denominator += (edge.pher_amt ** alpha) * (e_visibility ** beta)
 
+<<<<<<< HEAD
+    def optmization(self, Q, alpha, beta , ants): #ants is a list of ant instance 
+=======
         transition_prob = numerator / summation_denominator
         return transition_prob
 
     def optimization(self, Q, alpha, beta, ants):  #ants is a list of ant instance
+>>>>>>> 7dd40ed37df952a83d05a1654c1c29fa01614fc7
         shortest_path = None
         shortest_path_length = float('inf')
         shuffled_towns = copy.deepcopy(self.vertices)
@@ -105,8 +127,13 @@ class Graph:
         for ant in ants:
             if self.vertices:
                 curr_vertex = shuffled_towns.pop()
+<<<<<<< HEAD
+                ant.visited_vertex.append(curr_vertex) 
+                ant.curr_vertex = curr_vertex 
+=======
                 ant.visited_vertex.append(curr_vertex)
                 ant.curr_vertex = curr_vertex
+>>>>>>> 7dd40ed37df952a83d05a1654c1c29fa01614fc7
 
         for v in range(len(self.vertices)):
             for ant in ants:
@@ -123,23 +150,69 @@ class Graph:
                         potential_edges.append(e)
                     else:  #check this
                         e = Edge(curr_vertex, neighbor)
+<<<<<<< HEAD
+                        e.pher_amt = e.pher_amt + Q/e.weight  #collect trail(pher amt) left by ant on that particular edge
+                        e.prob = self.calulate_prob(e, alpha, beta) #change the prob of that edge after the ant has left trail (pher amt)
+           
+=======
                         e.pher_amt = e.pher_amt + Q / e.weight  #collect trail(pher amt) left by ant on that particular edge
                         e.prob = self.calculate_prob(e, alpha,
                                                      beta)  #change the prob of that edge after the ant has left trail (pher amt)
 
+>>>>>>> 7dd40ed37df952a83d05a1654c1c29fa01614fc7
                 for edge in potential_edges:
                     if edge.prob > greatest_prob:
                         greatest_prob = edge.prob
                         edge_to_take = edge
                         vertex_to_go = edge.vertex2
 
+<<<<<<< HEAD
+                ants.current_vertex = vertex_to_go
+                ants.visted_vertex.append(vertex_to_go)
+=======
                 ant.current_vertex = vertex_to_go
                 ant.visted_vertex.append(vertex_to_go)
+>>>>>>> 7dd40ed37df952a83d05a1654c1c29fa01614fc7
 
                 edge_to_take.pher_amt = 0.5 * edge_to_take.pher_amt + Q / edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
                 edge_to_take.prob = self.calculate_prob(edge_to_take, alpha,
                                                         beta)  #change the prob of that edge after the ant has left trail (pher amt)
 
+<<<<<<< HEAD
+                edge_to_take.pher_amt = 0.5*edge_to_take.pher_amt + Q/edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
+                edge_to_take.prob = self.calulate_prob(edge_to_take, alpha, beta) #change the prob of that edge after the ant has left trail (pher amt)
+
+                # Checking if the current tour is shorter than the globally based shortest path
+                tour_length = self.calculate_tour_length(ant.visited_vertex)
+                if tour_length < shortest_path_length:
+                    shortest_path = ant.visited_vertex[:]
+                    shortest_path_length = tour_length
+
+        return shortest_path, shortest_path_length
+
+
+
+
+
+
+
+            
+                
+
+
+
+
+                
+
+
+
+
+
+
+
+
+
+=======
                 # Checking if the current tour is shorter than the globally based shortest path
                 tour_length = self.calculate_tour_length(ant.visited_vertex)  # visited vertex is a list vertices
                 if tour_length < shortest_path_length:
@@ -147,3 +220,4 @@ class Graph:
                     shortest_path_length = tour_length
 
         return shortest_path, shortest_path_length
+>>>>>>> 7dd40ed37df952a83d05a1654c1c29fa01614fc7
