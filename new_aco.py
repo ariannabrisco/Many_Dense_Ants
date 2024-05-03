@@ -135,7 +135,7 @@ class Graph:
 
                 
                 else:
-                    print("ant ", ant.ant, " visited all vertex expect back to its 1st starting vertex")
+                    print("ant ", ant.ant, " visited all vertex except back to its 1st starting vertex")
 
                 
                 # Checking if the current tour is shorter than the globally based shortest path
