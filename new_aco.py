@@ -220,8 +220,8 @@ global_shortest_path_length = float('inf')
 # Run the optimization code for a certain number of iterations
 for iteration in range(100):  # Adjust the number of iterations as needed
     Q = 100  # Pheromone constant (adjust as needed)
-    alpha = 2  # Alpha parameter (adjust as needed)
-    beta = 5   # Beta parameter (adjust as needed)
+    alpha = 2 
+    beta = 5   
     row = 0.7
 
     # Run the optimization
