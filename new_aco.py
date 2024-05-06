@@ -15,6 +15,7 @@ class Ant:
         self.ant = ant
         self.curr_vertex = None
         self.visited_vertex = []
+        self.edge_taken = []
            
 class Vertex:
     def __init__(self, name):
@@ -45,7 +46,9 @@ class Graph:
             if (edge.vertex1 == vertex1 and edge.vertex2 == vertex2):
                 return edge
         return "edges does not exist"
-
+    
+    # def add_weight1(self, ver1, ver2, weight_val):
+    #     if ver1
     def add_weight(self, edge, weight_val):
         edge.weight = weight_val # edge a -> b weight update, also have to update b -> a with same val
         edge2 = self.get_edge(edge.vertex2, edge.vertex1)  # get the edge b -> a
@@ -76,10 +79,12 @@ class Graph:
         return transition_prob
     
 
-    def optmization(self, Q, alpha, beta , ants): #ants is a list of ant instance 
+    def optmization(self, Q, alpha, beta , row, ants): #ants is a list of ant instance 
         shortest_path = None
+        ant_taking_short_path = None
+        all_paths_travelled_by_ants = {}
         shortest_path_length = float('inf')
-        random_numbers = random.sample(range(5), 5) #random nums depending on vertices
+        random_numbers = random.sample(range(5), 5) #list of random nums; args depending on vertices
 
         for ant in ants:
             if random_numbers:
@@ -87,7 +92,7 @@ class Graph:
                 curr_vertex = self.vertices[random_index]
                 ant.visited_vertex.append(curr_vertex)
                 ant.curr_vertex = curr_vertex
-                # print(ant.ant, "curr vertex -> ", ant.curr_vertex, "visited vertex -> ", ant.visited_vertex[0].name)
+                # print("ant ", ant.ant, "curr vertex -> ", ant.curr_vertex.name, "visited vertex -> ", ant.visited_vertex[0].name)
         # for i in range(len(ants)):
         #     print(ants[i].ant, " -> The first town assigned ", ant.visited_vertex[i].name)
 
@@ -99,21 +104,22 @@ class Graph:
                 potential_edges = []
 
 
-                print("--------------------------") #testing 
-                print("ant: ",ant.ant, "current vertex -> ", curr_vertex.name) #test
+                # print("--------------------------") #testing 
+                # print("ant: ",ant.ant, "current vertex -> ", curr_vertex.name) #test
                 
-        #         print(" before: ant visited vertex length -> ", len(ant.visited_vertex))
+        # #         print(" before: ant visited vertex length -> ", len(ant.visited_vertex))
                 for neighbour in curr_vertex.neighbour: #getting the neighbour town: thi    
                     if neighbour not in ant.visited_vertex: #if that town has not been visited
-                        print(ant.ant, "current vertex:", curr_vertex.name,  " neighbours ", neighbour.name) #test
+                        # print("ant",ant.ant, "current vertex:", curr_vertex.name,  " neighbours ", neighbour.name) #test
                         pot_edge = self.get_edge(ant.curr_vertex, neighbour)
-                        # print(pot_edge)
+        #                 # print(pot_edge)
                         potential_edges.append(pot_edge)
 
                 if potential_edges:
-                    print("potential edges len:", len(potential_edges))
+                    # print("ant",ant.ant,"potential edges len:", len(potential_edges))
                     max_prob = potential_edges[0].prob
                     edge_to_take = potential_edges[0]
+                    # print(edge_to_take.vertex2.name, "with prob", max_prob)
 
                 
                     for i in range(0,len(potential_edges)):
@@ -121,16 +127,20 @@ class Graph:
                             max_prob = potential_edges[i].prob
                             edge_to_take = potential_edges[i]
                             vertex_to_go = potential_edges[i].vertex2 
-                    print("max_prob ", max_prob, "edge to take ", edge_to_take.vertex2.name, vertex_to_go.name, "edge to take prob ", edge_to_take.prob)
+                    # print("max_prob ", max_prob, "edge to take ", edge_to_take.vertex2.name, vertex_to_go.name, "edge to take prob ", edge_to_take.prob)
                 
-                    ant.current_vertex = vertex_to_go  
-                    print("current new vertex: ", ant.current_vertex.name)
-        #         print("ant ", ant.ant, " curr vertex ->" ,ant.current_vertex.name)
-                # visited_town_list = [ver.name for ver in ant.visited_vertex]
-                # print(" before: ant visited vertex length -> ", len(ant.visited_vertex))
+                    ant.curr_vertex = vertex_to_go  
+                    # print("new current vertex: ", ant.curr_vertex.name)
+        # #         print("ant ", ant.ant, " curr vertex ->" ,ant.current_vertex.name)
+                    ant.visited_vertex.append(vertex_to_go)
+                    visited_town_list = [ver.name for ver in ant.visited_vertex]
+                    # print(visited_town_list)
+                    # print(" before: ant visited svertex length -> ", len(ant.visited_vertex))
                 
-                    ant.visited_vertex.append(vertex_to_go) #since the vertex been visited add it to that ants visited_vertex list
-                    edge_to_take.pher_amt = 0.5*edge_to_take.pher_amt + Q/edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
+                     #since the vertex been visited add it to that ants visited_vertex list
+                    # print(" before: ant visited vertex length -> ", len(ant.visited_vertex))
+                # print()
+                    edge_to_take.pher_amt = row*edge_to_take.pher_amt + Q/edge_to_take.weight  #collect trail(pher amt) left by ant on that particular edge
                     edge_to_take.prob = self.calulate_prob(edge_to_take, alpha, beta) #change the prob of that edge after the ant has left trail (pher amt)
 
                 
@@ -138,15 +148,34 @@ class Graph:
                     print("ant ", ant.ant, " visited all vertex except back to its 1st starting vertex")
 
                 
-                # Checking if the current tour is shorter than the globally based shortest path
-                tour_length = self.calculate_tour_length(ant.visited_vertex) # visited vertex is a list vertices
-                if tour_length < shortest_path_length:
-                    shortest_path = ant.visited_vertex[:]
-                    shortest_path_length = tour_length
-            
-            path = [v.name for v in shortest_path]
+        #         # Checking if the current tour is shorter than the globally based shortest path
 
-        return path, shortest_path_length
+        for ant in ants:
+            path_taken  = []
+            first_vertex = None
+            for i in range(len(ant.visited_vertex)):
+                if i == 0:
+                    first_vertex = ant.visited_vertex[i]
+            ant.visited_vertex.append(first_vertex)
+
+            for verti in ant.visited_vertex:
+                v_name = verti.name
+                path_taken.append(v_name)
+
+            all_paths_travelled_by_ants[ant.ant] = path_taken
+            tour_length = self.calculate_tour_length(ant.visited_vertex) # visited vertex is a list vertices
+            if tour_length < shortest_path_length:
+                shortest_path = ant.visited_vertex[:]
+                shortest_path_length = tour_length
+                ant_taking_short_path = ant.ant
+
+            ant.visited_vertex = []
+            ant.curr_vertex = None
+            
+        path = [v.name for v in shortest_path]
+
+        return ant_taking_short_path, path, shortest_path_length, all_paths_travelled_by_ants
+
 
 graph = Graph()
 
@@ -157,27 +186,71 @@ for vertex_label in range(0, 5):
 graph.add_edge(graph.vertices[0], graph.vertices[1])
 graph.add_weight(graph.edges[0], 10)
 graph.add_edge(graph.vertices[0], graph.vertices[2])
-graph.add_weight(graph.edges[2], 9)
-# graph.add_edge(graph.vertices[0], graph.vertices[3])
-graph.add_edge(graph.vertices[1], graph.vertices[2])
-graph.add_weight(graph.edges[4], 4)
-graph.add_edge(graph.vertices[1], graph.vertices[3])
-graph.add_weight(graph.edges[6], 3)
-graph.add_edge(graph.vertices[2], graph.vertices[4])
-graph.add_weight(graph.edges[8], 8)
-graph.add_edge(graph.vertices[3], graph.vertices[4])
-graph.add_weight(graph.edges[10], 7)
+graph.add_weight(graph.edges[2], 8)
+graph.add_edge(graph.vertices[0], graph.vertices[3])
+graph.add_weight(graph.edges[4], 7)
+graph.add_edge(graph.vertices[0], graph.vertices[4])
+graph.add_weight(graph.edges[6], 9)
 
+# graph.add_edge(graph.vertices[0], graph.vertices[3])
+
+graph.add_edge(graph.vertices[1], graph.vertices[2])
+graph.add_weight(graph.edges[8], 6)
+graph.add_edge(graph.vertices[1], graph.vertices[3])
+graph.add_weight(graph.edges[10], 4)
+graph.add_edge(graph.vertices[1], graph.vertices[4])
+graph.add_weight(graph.edges[12], 7)
+
+graph.add_edge(graph.vertices[2], graph.vertices[3])
+graph.add_weight(graph.edges[14], 8)
+graph.add_edge(graph.vertices[2], graph.vertices[4])
+graph.add_weight(graph.edges[16], 8)
+
+graph.add_edge(graph.vertices[3], graph.vertices[4])
+graph.add_weight(graph.edges[18], 6)
 
 # Create a list of ants
 ants = [Ant(i) for i in range(5)] 
 
+global_shortest_path = None
+global_ant_taking_short_path = None
+global_all_paths_travelled_by_ants = {}
+global_shortest_path_length = float('inf')
 
-# # Perform optimization
-# shortest_path, shortest_path_length = graph.optmization(Q=1, alpha=1, beta=1, ants=ants)
-print()
+# Run the optimization code for a certain number of iterations
+for iteration in range(100):  # Adjust the number of iterations as needed
+    Q = 100  # Pheromone constant (adjust as needed)
+    alpha = 2  # Alpha parameter (adjust as needed)
+    beta = 5   # Beta parameter (adjust as needed)
+    row = 0.7
 
-print(graph.optmization(Q=1, alpha=1, beta=1, ants=ants))
+    # Run the optimization
+    ant_taking_short_path, path, shortest_path_length, all_paths_travelled_by_ants = graph.optmization(Q, alpha, beta, row, ants)
+
+    # Update global shortest path if a shorter path is found
+    if shortest_path_length < global_shortest_path_length:
+        global_shortest_path = path
+        global_ant_taking_short_path = ant_taking_short_path
+        global_shortest_path_length = shortest_path_length
+        global_all_paths_travelled_by_ants = all_paths_travelled_by_ants
+
+# Output the global shortest path and other relevant information
+print("Global shortest path found by ant", global_ant_taking_short_path, ": ", global_shortest_path)
+print("Length of global shortest path: ", global_shortest_path_length)
+# print("All paths travelled by ants:")
+# for ant_id, path_taken in global_all_paths_travelled_by_ants.items():
+#     print("Ant", ant_id, ":", path_taken)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -192,13 +265,3 @@ print(graph.optmization(Q=1, alpha=1, beta=1, ants=ants))
 
 
                 
-
-
-
-
-
-
-
-
-
-
