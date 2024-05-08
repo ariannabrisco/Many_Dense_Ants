@@ -218,10 +218,10 @@ global_all_paths_travelled_by_ants = {}
 global_shortest_path_length = float('inf')
 
 # Run the optimization code for a certain number of iterations
-for iteration in range(100):  # Adjust the number of iterations as needed
+for iteration in range(10):  # Adjust the number of iterations as needed
     Q = 100  # Pheromone constant (adjust as needed)
-    alpha = 2 
-    beta = 5   
+    alpha = 2  # Alpha parameter (adjust as needed)  
+    beta = 5   # Beta parameter (adjust as needed)
     row = 0.7
 
     # Run the optimization
