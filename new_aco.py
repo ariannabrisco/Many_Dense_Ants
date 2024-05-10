@@ -50,10 +50,11 @@ def show_graph_optimal_path(optimal_path):
 
     # Color the edges of the optimal path differently
     nx.draw_networkx_edges(G, pos, edgelist=G.edges(), edge_color='red', arrows=True)
+
+    # Label the starting vertex
     nx.draw_networkx_labels(G, pos, labels={optimal_path[0]: f'Start: {optimal_path[0]}'}, font_size=12, font_color='blue')
 
     plt.show()
-    
 def show_chart(show_result):
     x_values = list(show_result.keys())
     y_values = list(show_result.values())
@@ -65,8 +66,8 @@ def show_chart(show_result):
     plt.title('Global Shortest Path Length vs. Global Iteration Number')
     plt.grid(True)
     plt.show()
-
-
+    
+    
 
 class Edge:
     def __init__(self, vertex1, vertex2):       
@@ -258,9 +259,6 @@ ants = [Ant(i) for i in range(20)]
 #     (3, 4, 4)
 # ]
 
-
-
-
 #k6
 # edges = [
 #     (0, 1, 10), (0, 2, 8), (0, 3, 7), (0, 4, 9), (0,5,4),
@@ -318,8 +316,9 @@ global_ant_taking_short_path = None
 global_all_paths_travelled_by_ants = {}
 global_shortest_path_length = float('inf')
 show_result = {}
+
 # Run the optimization code for a certain number of iterations
-for iteration in range(50):  # Adjust the number of iterations as needed
+for iteration in range(40):  # Adjust the number of iterations as needed
     Q = 100  # Pheromone constant (adjust as needed)
     alpha = 2  # Alpha parameter (adjust as needed)
     beta = 5   # Beta parameter (adjust as needed)
@@ -329,6 +328,7 @@ for iteration in range(50):  # Adjust the number of iterations as needed
    
     ant_taking_short_path, path, shortest_path_length, all_paths_travelled_by_ants = graph.optmization(Q, alpha, beta, row, ants)
     print("iter", iteration+1, ":", all_paths_travelled_by_ants, "shortest path: ", path , "shortest path length:", shortest_path_length, "\n")
+    show_result[iteration] = global_shortest_path_length
     # Update global shortest path if a shorter path is found
     if shortest_path_length < global_shortest_path_length:
         global_shortest_path = path
@@ -336,7 +336,7 @@ for iteration in range(50):  # Adjust the number of iterations as needed
         global_shortest_path_length = shortest_path_length
         global_all_paths_travelled_by_ants = all_paths_travelled_by_ants
         global_iter_num = iteration+1
-        show_result[global_iter_num] = global_shortest_path_length
+        
 
 # Output the global shortest path and other relevant information
 print("Global shortest path found by ant", global_ant_taking_short_path, ": ", global_shortest_path, "in ", global_iter_num, " iterations")
@@ -346,4 +346,6 @@ print("\t\t Complete graph and optimal path")
 show_graph(edges, global_shortest_path) 
 print("\t\t Optimal path")
 show_graph_optimal_path(global_shortest_path)
+
 show_chart(show_result)
+print(show_result)
